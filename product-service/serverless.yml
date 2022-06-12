@@ -1,0 +1,20 @@
+org: igvardo
+app: rs-aws-node-be
+service: product-service
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: eu-west-1
+  stage: dev
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - http:
+          path: /
+          method: get
+
+plugins:
+  - serverless-plugin-typescript
