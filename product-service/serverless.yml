@@ -1,7 +1,7 @@
 org: igvardo
 app: rs-aws-node-be
 service: product-service
-frameworkVersion: '3'
+frameworkVersion: "3"
 
 provider:
   name: aws
@@ -30,6 +30,14 @@ functions:
       - http:
           path: /
           method: get
+          exclude: true
 
 plugins:
   - serverless-plugin-typescript
+  - serverless-auto-swagger
+custom:
+  autoswagger:
+    apiType: "http"
+    swaggerPath: "swagger"
+    schemes: ["https"]
+    basePath: /${self:provider.stage}

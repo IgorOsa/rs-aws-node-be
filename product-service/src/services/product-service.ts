@@ -1,3 +1,5 @@
+import { ProductResource } from "../types/api-types";
+
 const products: ProductResource[] = [
     {
         id: 'prod0001',
@@ -45,11 +47,4 @@ export default {
 export interface ProductService {
     getAll(): Promise<ProductResource[]>,
     getById(productId: string): Promise<ProductResource>
-}
-
-export interface ProductResource {
-    id: string;
-    title: string;
-    description: string;
-    price: number;
 }

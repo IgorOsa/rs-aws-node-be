@@ -1,5 +1,9 @@
 # AWS Node Backend for Shop React Redux App
 
+## swagger
+
+https://ycq2813um2.execute-api.eu-west-1.amazonaws.com/dev/swagger
+
 ## endpoints
 
 List all products:
