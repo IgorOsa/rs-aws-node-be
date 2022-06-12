@@ -1,6 +1,7 @@
 org: igvardo
 app: rs-aws-node-be
 service: product-service
+frameworkVersion: '3'
 
 provider:
   name: aws
@@ -9,6 +10,20 @@ provider:
   stage: dev
 
 functions:
+  getProductsList:
+    handler: handler.getProductsList
+    events:
+      - http:
+          path: /products
+          method: get
+          cors: true
+  getProductsById:
+    handler: handler.getProductsById
+    events:
+      - http:
+          path: /products/{productId}
+          method: get
+          cors: true
   hello:
     handler: handler.hello
     events:
