@@ -2,6 +2,8 @@ import { Handler } from 'aws-lambda';
 import productService from '../services/product-service';
 
 export const getProductsList: Handler = async () => {
+  console.log(`Incoming event: ${JSON.stringify(event)}`);
+
   const response = {
     statusCode: 200,
     headers: {

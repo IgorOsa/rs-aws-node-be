@@ -2,6 +2,8 @@ import { Handler } from 'aws-lambda';
 import productService from '../services/product-service';
 
 export const getProductsById: Handler = async (event: any) => {
+  console.log(`Incoming event: ${JSON.stringify(event)}`);
+
   const { productId } = event.pathParameters;
   let statusCode = 200;
   let result = await productService.getById(productId);
