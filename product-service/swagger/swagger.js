@@ -20,7 +20,13 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "200 response"
+            "description": "Product list",
+            "schema": {
+              "$ref": "#/definitions/ProductResourceArray"
+            }
+          },
+          "500": {
+            "description": "Server error"
           }
         }
       },
@@ -47,7 +53,19 @@
         ],
         "responses": {
           "200": {
-            "description": "200 response"
+            "description": "Product created",
+            "schema": {
+              "$ref": "#/definitions/CreateProductBody"
+            }
+          },
+          "400": {
+            "description": "Wrong body signature",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseBody"
+            }
+          },
+          "500": {
+            "description": "Server error"
           }
         }
       }
@@ -73,7 +91,25 @@
         ],
         "responses": {
           "200": {
-            "description": "200 response"
+            "description": "Product by id",
+            "schema": {
+              "$ref": "#/definitions/ProductResource"
+            }
+          },
+          "400": {
+            "description": "Wrong id provided",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseBody"
+            }
+          },
+          "404": {
+            "description": "Product with id not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseBody"
+            }
+          },
+          "500": {
+            "description": "Server error"
           }
         }
       }
@@ -113,6 +149,13 @@
       "additionalProperties": false,
       "title": "ProductResource",
       "type": "object"
+    },
+    "ProductResourceArray": {
+      "items": {
+        "$ref": "#/definitions/ProductResource"
+      },
+      "title": "ProductResourceArray",
+      "type": "array"
     },
     "StocksResource": {
       "properties": {
@@ -160,6 +203,20 @@
       ],
       "additionalProperties": false,
       "title": "CreateProductBody",
+      "type": "object"
+    },
+    "ErrorResponseBody": {
+      "properties": {
+        "message": {
+          "title": "ErrorResponseBody.message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "message"
+      ],
+      "additionalProperties": false,
+      "title": "ErrorResponseBody",
       "type": "object"
     }
   },

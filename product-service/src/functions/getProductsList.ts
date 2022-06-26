@@ -1,24 +1,17 @@
 import { Handler } from 'aws-lambda';
 import productService from '../services/product-service';
+import { errorResponse, successResponse } from '../utils/responseHandler';
 
-export const getProductsList: Handler = async () => {
-  console.log(`Incoming event: ${JSON.stringify(event)}`);
+export const getProductsList: Handler = async (event) => {
+  try {
+    console.log(`Incoming event: ${JSON.stringify(event)}`);
 
-  const response = {
-    statusCode: 200,
-    headers: {
-      'Access-Control-Allow-Methods': '*',
-      'Access-Control-Allow-Headers': '*',
-      'Access-Control-Allow-Origin': '*'
-    },
-    body: JSON.stringify(
-      await productService.getAll()
-    ),
-  };
+    const result = await productService.getAll();
 
-  return new Promise((resolve) => {
-    resolve(response)
-  })
+    return successResponse(result, 201);
+  } catch (error) {
+    return errorResponse(error);
+  }
 }
 
 export default getProductsList;

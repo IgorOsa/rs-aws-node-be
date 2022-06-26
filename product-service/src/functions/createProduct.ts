@@ -1,35 +1,26 @@
 import { Handler } from 'aws-lambda';
+import schema from '../schemas/createProductValidation';
 import productService from '../services/product-service';
+import { errorResponse, successResponse } from '../utils/responseHandler';
 
 export const getProductsById: Handler = async (event: any) => {
-    console.log(`Incoming event: ${JSON.stringify(event)}`);
+    try {
+        console.log(`Incoming event: ${JSON.stringify(event)}`);
 
-    const product = JSON.parse(event.body);
-    let statusCode = 201;
-    let result = await productService.create(product);
-    let body: string;
+        const product = JSON.parse(event.body);
 
-    if (!!result) {
-        body = JSON.stringify(result);
-    } else {
-        statusCode = 400;
-        body = JSON.stringify({
-            message: `Error creating product`
-        });
+        const { value, error } = schema.validate(product);
+
+        if (error) {
+            return errorResponse(error, 400);
+        }
+
+        const result = await productService.create(product);
+
+        return successResponse(result, 201);
+    } catch (error) {
+        return errorResponse(error);
     }
-    const response = {
-        statusCode,
-        headers: {
-            'Access-Control-Allow-Methods': '*',
-            'Access-Control-Allow-Headers': '*',
-            'Access-Control-Allow-Origin': '*'
-        },
-        body,
-    };
-
-    return new Promise((resolve) => {
-        resolve(response)
-    })
 }
 
 export default getProductsById;

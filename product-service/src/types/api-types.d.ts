@@ -6,6 +6,8 @@ export interface ProductResource {
     count: number;
 }
 
+export type ProductResourceArray = Array<ProductResource>;
+
 export interface StocksResource {
     product_id: string;
     count: number;
@@ -16,4 +18,8 @@ export interface CreateProductBody {
     description: string;
     price: number;
     count: number;
+}
+
+export interface ErrorResponseBody {
+    message: string;
 }

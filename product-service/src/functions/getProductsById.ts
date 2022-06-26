@@ -1,35 +1,29 @@
 import { Handler } from 'aws-lambda';
+import schema from '../schemas/getByIdValidation';
 import productService from '../services/product-service';
+import { errorResponse, successResponse } from '../utils/responseHandler';
 
 export const getProductsById: Handler = async (event: any) => {
-  console.log(`Incoming event: ${JSON.stringify(event)}`);
+  try {
+    console.log(`Incoming event: ${JSON.stringify(event)}`);
 
-  const { productId } = event.pathParameters;
-  let statusCode = 200;
-  let result = await productService.getById(productId);
-  let body: string;
+    const { productId } = event.pathParameters;
+    const { error } = schema.validate(productId);
 
-  if (!!result) {
-    body = JSON.stringify(result);
-  } else {
-    statusCode = 404;
-    body = JSON.stringify({
-      message: `Product with id "${productId}" not found`
-    });
+    if (error) {
+      return errorResponse(error, 400);
+    }
+
+    const result = await productService.getById(productId);
+
+    if (!result) {
+      return errorResponse(new Error(`Product with id "${productId}" not found`), 404)
+    }
+
+    return successResponse(result);
+  } catch (error) {
+    return errorResponse(error);
   }
-  const response = {
-    statusCode,
-    headers: {
-      'Access-Control-Allow-Methods': '*',
-      'Access-Control-Allow-Headers': '*',
-      'Access-Control-Allow-Origin': '*'
-    },
-    body,
-  };
-
-  return new Promise((resolve) => {
-    resolve(response)
-  })
 }
 
 export default getProductsById;

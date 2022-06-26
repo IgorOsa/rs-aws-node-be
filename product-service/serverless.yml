@@ -24,6 +24,12 @@ functions:
           path: /products
           method: get
           cors: true
+          responseData:
+            200:
+              description: "Product list"
+              bodyType: ProductResourceArray
+            500:
+              description: "Server error"
   getProductsById:
     handler: handler.getProductsById
     events:
@@ -31,6 +37,18 @@ functions:
           path: /products/{productId}
           method: get
           cors: true
+          responseData:
+            200:
+              description: "Product by id"
+              bodyType: ProductResource
+            400:
+              description: "Wrong id provided"
+              bodyType: ErrorResponseBody
+            404:
+              description: "Product with id not found"
+              bodyType: ErrorResponseBody
+            500:
+              description: "Server error"
   createProduct:
     handler: handler.createProduct
     events:
@@ -39,6 +57,15 @@ functions:
           method: post
           cors: true
           bodyType: CreateProductBody
+          responseData:
+            200:
+              description: "Product created"
+              bodyType: CreateProductBody
+            400:
+              description: "Wrong body signature"
+              bodyType: ErrorResponseBody
+            500:
+              description: "Server error"
   hello:
     handler: handler.hello
     events:

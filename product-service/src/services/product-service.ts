@@ -62,5 +62,5 @@ export default {
 export interface ProductService {
     getAll(): Promise<ProductResource[]>,
     getById(productId: string): Promise<ProductResource>,
-    create(product: CreateProductResource): Promise<ProductResource>
+    create(product: CreateProductBody): Promise<ProductResource>
 }
