@@ -2,11 +2,18 @@
   "name": "product-service",
   "description": "",
   "version": "0.1.0",
-  "dependencies": {},
+  "dependencies": {
+    "pg": "^8.7.3",
+    "uuid": "^8.3.2"
+  },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.92",
+    "@types/pg": "^8.6.5",
+    "@types/uuid": "^8.3.4",
+    "dotenv": "^16.0.1",
     "serverless": "^3.1.1",
     "serverless-auto-swagger": "^2.5.1",
+    "serverless-dotenv-plugin": "^4.0.1",
     "serverless-plugin-typescript": "^2.1.1",
     "typescript": "^4.5.5"
   }
