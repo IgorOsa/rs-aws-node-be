@@ -23,6 +23,33 @@
             "description": "200 response"
           }
         }
+      },
+      "post": {
+        "summary": "createProduct",
+        "description": "",
+        "operationId": "createProduct.post./products",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Body required in the request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateProductBody"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          }
+        }
       }
     },
     "/products/{productId}": {
@@ -70,16 +97,69 @@
         "price": {
           "title": "ProductResource.price",
           "type": "number"
+        },
+        "count": {
+          "title": "ProductResource.count",
+          "type": "number"
         }
       },
       "required": [
         "id",
         "title",
         "description",
-        "price"
+        "price",
+        "count"
       ],
       "additionalProperties": false,
       "title": "ProductResource",
+      "type": "object"
+    },
+    "StocksResource": {
+      "properties": {
+        "product_id": {
+          "title": "StocksResource.product_id",
+          "type": "string"
+        },
+        "count": {
+          "title": "StocksResource.count",
+          "type": "number"
+        }
+      },
+      "required": [
+        "product_id",
+        "count"
+      ],
+      "additionalProperties": false,
+      "title": "StocksResource",
+      "type": "object"
+    },
+    "CreateProductBody": {
+      "properties": {
+        "title": {
+          "title": "CreateProductBody.title",
+          "type": "string"
+        },
+        "description": {
+          "title": "CreateProductBody.description",
+          "type": "string"
+        },
+        "price": {
+          "title": "CreateProductBody.price",
+          "type": "number"
+        },
+        "count": {
+          "title": "CreateProductBody.count",
+          "type": "number"
+        }
+      },
+      "required": [
+        "title",
+        "description",
+        "price",
+        "count"
+      ],
+      "additionalProperties": false,
+      "title": "CreateProductBody",
       "type": "object"
     }
   },

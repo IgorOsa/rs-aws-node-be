@@ -31,6 +31,14 @@ functions:
           path: /products/{productId}
           method: get
           cors: true
+  createProduct:
+    handler: handler.createProduct
+    events:
+      - http:
+          path: /products
+          method: post
+          cors: true
+          bodyType: CreateProductBody
   hello:
     handler: handler.hello
     events:

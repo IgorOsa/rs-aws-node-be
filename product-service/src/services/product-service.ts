@@ -1,5 +1,5 @@
 import dbClient from "./../db-client";
-import { ProductResource } from "../types/api-types";
+import { CreateProductBody, ProductResource, StocksResource } from "../types/api-types";
 import { QueryConfig } from "pg";
 
 
@@ -26,10 +26,41 @@ export default {
 
         const result = await dbClient.query(query);
         return result.rows[0] ? result.rows[0] : null;
+    },
+    create: async (product: CreateProductBody) => {
+        try {
+            await dbClient.query(`BEGIN`);
+            const query = {
+                text: `INSERT INTO ${tableName} (title, description, price) VALUES($1, $2, $3) RETURNING *`,
+                values: [product.title, product.description, product.price],
+            };
+            const productEntity = await dbClient.query(query);
+
+            if (!productEntity) throw new Error("Error creating product");
+
+            const queryStocks = {
+                text: `INSERT INTO ${subTableName}(product_id, count) VALUES($1, $2) RETURNING count`,
+                values: [productEntity.rows[0].id, product.count],
+            };
+
+            const stocksEntity = await dbClient.query(queryStocks);
+
+            if (!stocksEntity) throw new Error("Error creating stock value");
+
+            await dbClient.query(`COMMIT`);
+
+            const result = { ...productEntity.rows[0], count: stocksEntity.rows[0].count }
+
+            return result ? result : null;
+        } catch (error) {
+            dbClient.query(`ROLLBACK`);
+            throw new Error(error.message);
+        }
     }
 }
 
 export interface ProductService {
     getAll(): Promise<ProductResource[]>,
-    getById(productId: string): Promise<ProductResource>
+    getById(productId: string): Promise<ProductResource>,
+    create(product: CreateProductResource): Promise<ProductResource>
 }
