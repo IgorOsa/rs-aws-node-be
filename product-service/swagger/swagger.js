@@ -20,7 +20,52 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "200 response"
+            "description": "Product list",
+            "schema": {
+              "$ref": "#/definitions/ProductResourceArray"
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "createProduct",
+        "description": "",
+        "operationId": "createProduct.post./products",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Body required in the request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateProductBody"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product created",
+            "schema": {
+              "$ref": "#/definitions/CreateProductBody"
+            }
+          },
+          "400": {
+            "description": "Wrong body signature",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseBody"
+            }
+          },
+          "500": {
+            "description": "Server error"
           }
         }
       }
@@ -46,7 +91,25 @@
         ],
         "responses": {
           "200": {
-            "description": "200 response"
+            "description": "Product by id",
+            "schema": {
+              "$ref": "#/definitions/ProductResource"
+            }
+          },
+          "400": {
+            "description": "Wrong id provided",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseBody"
+            }
+          },
+          "404": {
+            "description": "Product with id not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseBody"
+            }
+          },
+          "500": {
+            "description": "Server error"
           }
         }
       }
@@ -70,16 +133,90 @@
         "price": {
           "title": "ProductResource.price",
           "type": "number"
+        },
+        "count": {
+          "title": "ProductResource.count",
+          "type": "number"
         }
       },
       "required": [
         "id",
         "title",
         "description",
-        "price"
+        "price",
+        "count"
       ],
       "additionalProperties": false,
       "title": "ProductResource",
+      "type": "object"
+    },
+    "ProductResourceArray": {
+      "items": {
+        "$ref": "#/definitions/ProductResource"
+      },
+      "title": "ProductResourceArray",
+      "type": "array"
+    },
+    "StocksResource": {
+      "properties": {
+        "product_id": {
+          "title": "StocksResource.product_id",
+          "type": "string"
+        },
+        "count": {
+          "title": "StocksResource.count",
+          "type": "number"
+        }
+      },
+      "required": [
+        "product_id",
+        "count"
+      ],
+      "additionalProperties": false,
+      "title": "StocksResource",
+      "type": "object"
+    },
+    "CreateProductBody": {
+      "properties": {
+        "title": {
+          "title": "CreateProductBody.title",
+          "type": "string"
+        },
+        "description": {
+          "title": "CreateProductBody.description",
+          "type": "string"
+        },
+        "price": {
+          "title": "CreateProductBody.price",
+          "type": "number"
+        },
+        "count": {
+          "title": "CreateProductBody.count",
+          "type": "number"
+        }
+      },
+      "required": [
+        "title",
+        "description",
+        "price",
+        "count"
+      ],
+      "additionalProperties": false,
+      "title": "CreateProductBody",
+      "type": "object"
+    },
+    "ErrorResponseBody": {
+      "properties": {
+        "message": {
+          "title": "ErrorResponseBody.message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "message"
+      ],
+      "additionalProperties": false,
+      "title": "ErrorResponseBody",
       "type": "object"
     }
   },

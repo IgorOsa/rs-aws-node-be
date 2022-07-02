@@ -2,12 +2,19 @@ org: igvardo
 app: rs-aws-node-be
 service: product-service
 frameworkVersion: "3"
+useDotenv: true
 
 provider:
   name: aws
   runtime: nodejs14.x
   region: eu-west-1
   stage: dev
+  environment:
+    PGHOST: ${env.PGHOST}
+    PGUSER: ${env.PGUSER}
+    PGDATABASE: ${env.PGDATABASE}
+    PGPASSWORD: ${env.PGPASSWORD}
+    PGPORT: ${env.PGPORT}
 
 functions:
   getProductsList:
@@ -17,6 +24,12 @@ functions:
           path: /products
           method: get
           cors: true
+          responseData:
+            200:
+              description: "Product list"
+              bodyType: ProductResourceArray
+            500:
+              description: "Server error"
   getProductsById:
     handler: handler.getProductsById
     events:
@@ -24,6 +37,35 @@ functions:
           path: /products/{productId}
           method: get
           cors: true
+          responseData:
+            200:
+              description: "Product by id"
+              bodyType: ProductResource
+            400:
+              description: "Wrong id provided"
+              bodyType: ErrorResponseBody
+            404:
+              description: "Product with id not found"
+              bodyType: ErrorResponseBody
+            500:
+              description: "Server error"
+  createProduct:
+    handler: handler.createProduct
+    events:
+      - http:
+          path: /products
+          method: post
+          cors: true
+          bodyType: CreateProductBody
+          responseData:
+            200:
+              description: "Product created"
+              bodyType: CreateProductBody
+            400:
+              description: "Wrong body signature"
+              bodyType: ErrorResponseBody
+            500:
+              description: "Server error"
   hello:
     handler: handler.hello
     events:
@@ -35,6 +77,8 @@ functions:
 plugins:
   - serverless-plugin-typescript
   - serverless-auto-swagger
+  - serverless-dotenv-plugin
+
 custom:
   autoswagger:
     apiType: "http"

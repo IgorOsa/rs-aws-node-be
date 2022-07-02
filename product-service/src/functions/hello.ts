@@ -1,6 +1,8 @@
 import { Handler } from 'aws-lambda';
 
 export const hello: Handler = (event: any) => {
+  console.log(`Incoming event: ${JSON.stringify(event)}`);
+
   const response = {
     statusCode: 200,
     body: JSON.stringify(
