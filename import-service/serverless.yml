@@ -1,0 +1,41 @@
+org: igvardo
+app: rs-aws-node-be
+service: import-service
+frameworkVersion: "3"
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: eu-west-1
+  stage: dev
+  environment:
+    BUCKET: ${env.BUCKET}
+
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action: "s3:ListBucket"
+      Resource:
+        - "arn:aws:s3:::rs-aws-node-cloud-photos"
+    - Effect: "Allow"
+      Action:
+        - "s3:*"
+      Resource:
+        - "arn:aws:s3:::rs-aws-node-cloud-photos/*"
+
+functions:
+  importProductsFile:
+    handler: handler.importProductsFile
+    events:
+      - http:
+          path: /import
+          method: get
+          cors: true
+          request:
+            parameters:
+              querystrings:
+                name: true
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-dotenv-plugin
