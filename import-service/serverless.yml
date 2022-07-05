@@ -12,16 +12,18 @@ provider:
   environment:
     BUCKET: ${env.BUCKET}
 
-  iamRoleStatements:
-    - Effect: "Allow"
-      Action: "s3:ListBucket"
-      Resource:
-        - "arn:aws:s3:::rs-aws-node-cloud-photos"
-    - Effect: "Allow"
-      Action:
-        - "s3:*"
-      Resource:
-        - "arn:aws:s3:::rs-aws-node-cloud-photos/*"
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action: "s3:ListBucket"
+          Resource:
+            - "arn:aws:s3:::rs-aws-node-cloud-photos"
+        - Effect: "Allow"
+          Action:
+            - "s3:*"
+          Resource:
+            - "arn:aws:s3:::rs-aws-node-cloud-photos/*"
 
 functions:
   importProductsFile:
