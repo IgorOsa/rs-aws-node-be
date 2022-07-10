@@ -11,10 +11,16 @@ provider:
   stage: dev
   environment:
     BUCKET: ${env.BUCKET}
+    SQS_URL: ${env.SQS_URL}
+    REGION: ${env.REGION}
 
   iam:
     role:
       statements:
+        - Effect: Allow
+          Action: sqs:*
+          Resource:
+            - "arn:aws:sqs:::*"
         - Effect: "Allow"
           Action: "s3:ListBucket"
           Resource:
