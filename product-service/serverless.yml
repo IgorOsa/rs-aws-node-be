@@ -15,6 +15,10 @@ provider:
     PGDATABASE: ${env.PGDATABASE}
     PGPASSWORD: ${env.PGPASSWORD}
     PGPORT: ${env.PGPORT}
+    SQS_URL:
+      Ref: catalogItemsQueue
+    SNS_ARN:
+      Ref: createProductTopic
   iam:
     role:
       statements:
@@ -29,6 +33,21 @@ resources:
       Type: AWS::SQS::Queue
       Properties:
         QueueName: rs-node-aws-catalog-items-queue
+    createProductTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: createProductTopic
+    createProductTopicSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Endpoint: igorosa.com@gmail.com
+        Protocol: email
+        TopicArn: !Ref createProductTopic
+  Outputs:
+    SQSArn:
+      Value: !GetAtt catalogItemsQueue.Arn
+    SQSUrl:
+      Value: !Ref catalogItemsQueue
 
 functions:
   getProductsList:
