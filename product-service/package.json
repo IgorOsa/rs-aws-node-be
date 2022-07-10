@@ -3,6 +3,7 @@
   "description": "",
   "version": "0.1.0",
   "dependencies": {
+    "@aws-sdk/client-sqs": "^3.121.0",
     "joi": "^17.6.0",
     "pg": "^8.7.3",
     "uuid": "^8.3.2"
