@@ -1,13 +1,14 @@
 export const basicAuthorizer = async (event: any, context: any, callback: any) => {
   console.log(event, context);
-  // VEVTVF9QQVNTV09SRA==
   const token = event.authorizationToken;
 
-  if (token == 'Basic VEVTVF9QQVNTV09SRA==') {
-    return callback(null, generatePolicy('user', 'Allow', event.methodArn));
+  const [userName, password] = decryptToken(token);
+
+  if (userName && password && process.env[userName] === password) {
+    return callback(null, generatePolicy(userName, 'Allow', event.methodArn));
   }
   else {
-    return callback(null, generatePolicy('user', 'Deny', event.methodArn));
+    return callback('Unauthorized', generatePolicy(userName, 'Deny', event.methodArn));
   }
 };
 
@@ -29,5 +30,7 @@ const generatePolicy = function(principalId: string, Effect: string, Resource: a
 
   return authResponse;
 }
+
+const decryptToken = (token: string) => Buffer.from(token.split(' ')[1], 'base64').toString('utf-8').split(':');
 
 export default basicAuthorizer;
