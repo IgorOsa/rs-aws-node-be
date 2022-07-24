@@ -1,6 +1,6 @@
 service: authorization-service
-
 frameworkVersion: '3'
+useDotenv: true
 
 provider:
   name: aws
