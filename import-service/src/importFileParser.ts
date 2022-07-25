@@ -42,8 +42,6 @@ export const importFileParser = async (event) => {
                         console.log(results);
                         resolve(results);
                     });
-
-                // 
             })
         }
 
