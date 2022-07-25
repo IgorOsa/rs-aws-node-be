@@ -22,7 +22,7 @@ export const importProductsFile: Handler = async (event) => {
             expiresIn: 3000
         })
 
-        return successResponse(url, 201);
+        return successResponse(url);
     } catch (error) {
         return errorResponse(error);
     }

@@ -1,14 +1,24 @@
 export const basicAuthorizer = async (event: any, context: any, callback: any) => {
-  console.log(event, context);
+  console.log('EVENT:', JSON.stringify(event, null, 2));
+
   const token = event.authorizationToken;
 
+  console.log('TOKEN:', token);
+
+  if (event.type !== 'TOKEN' || !token) {
+    callback(
+      'Unauthorized',
+      'Token is missing or wrong!'
+    );
+  }
+  
   const [userName, password] = decryptToken(token);
 
   if (userName && password && process.env[userName] === password) {
     return callback(null, generatePolicy(userName, 'Allow', event.methodArn));
   }
   else {
-    return callback('Unauthorized', generatePolicy(userName, 'Deny', event.methodArn));
+    return callback(null, generatePolicy(userName, 'Deny', event.methodArn));
   }
 };
 
@@ -31,6 +41,14 @@ const generatePolicy = function(principalId: string, Effect: string, Resource: a
   return authResponse;
 }
 
-const decryptToken = (token: string) => Buffer.from(token.split(' ')[1], 'base64').toString('utf-8').split(':');
+const decryptToken = (token: string) => { 
+  const decoded = Buffer.from(token.split(' ')[1], 'base64').toString('utf-8');
+  
+  console.log('DECODED TOKEN:', decoded);
+  
+  const [userName, password] = decoded.split(':');
+
+  return [userName, password];
+}
 
 export default basicAuthorizer;
