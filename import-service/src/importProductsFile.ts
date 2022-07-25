@@ -22,16 +22,9 @@ export const importProductsFile: Handler = async (event) => {
             expiresIn: 3000
         })
 
-        return {
-            statusCode: 201,
-            headers: {
-                'Access-Control-Allow-Origin': 'https://dyfghvez1nca3.cloudfront.net/',
-                'Access-Control-Allow-Credentials': true,
-            },
-            body: JSON.stringify(url)
-        }
+        return successResponse(url, 201);
     } catch (error) {
-        errorResponse(error);
+        return errorResponse(error);
     }
 }
 

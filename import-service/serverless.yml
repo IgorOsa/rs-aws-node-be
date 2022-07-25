@@ -49,11 +49,6 @@ functions:
             resultTtlInSeconds: 0
             identitySource: method.request.header.Authorization
             type: token
-            cors:
-              origins:
-                - https://dyfghvez1nca3.cloudfront.net
-              methods:
-                - GET
   importFileParser:
     handler: handler.importFileParser
     events:
@@ -70,10 +65,9 @@ resources:
       Type: 'AWS::ApiGateway::GatewayResponse'
       Properties:
         ResponseParameters:
-          gatewayresponse.header.Access-Control-Allow-Origin: "'https://dyfghvez1nca3.cloudfront.net/'"
+          gatewayresponse.header.Access-Control-Allow-Origin: "'https://dyfghvez1nca3.cloudfront.net'"
           gatewayresponse.header.Access-Control-Allow-Credentials: "'true'"
-          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
-          gatewayresponse.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'GET,OPTIONS,PUT,POST,DELETE'"
         ResponseType: DEFAULT_4XX
         RestApiId:
           Ref: 'ApiGatewayRestApi'
