@@ -9,6 +9,8 @@ provider:
   runtime: nodejs16.x
   region: eu-west-1
   stage: dev
+  httpApi:
+    cors: true
 
 functions:
   basicAuthorizer:
