@@ -4,13 +4,6 @@ export const basicAuthorizer = async (event: any, context: any, callback: any) =
   const token = event.authorizationToken;
 
   console.log('TOKEN:', token);
-
-  if (event.type !== 'TOKEN' || !token) {
-    callback(
-      'Unauthorized',
-      'Token is missing or wrong!'
-    );
-  }
   
   const [userName, password] = decryptToken(token);
 
