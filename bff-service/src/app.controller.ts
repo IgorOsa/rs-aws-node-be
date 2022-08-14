@@ -35,13 +35,13 @@ export class AppController {
           if (err.response) {
             const { status, data } = err.response;
 
-            res.sendStatus(status).json(data);
+            res.status(status).json(data);
           } else {
-            res.sendStatus(500).json({ message: err.message });
+            res.status(500).json({ message: err.message });
           }
         });
     } else {
-      res.sendStatus(502).json({ error: 'Cannot process request' });
+      res.status(502).json({ error: 'Cannot process request' });
     }
   }
 }
