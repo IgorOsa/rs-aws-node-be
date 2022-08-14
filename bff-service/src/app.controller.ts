@@ -1,4 +1,3 @@
-import { HttpService } from '@nestjs/axios';
 import { Controller, Get, Logger, Post, Req, Res } from '@nestjs/common';
 import axios from 'axios';
 import { Request, Response } from 'express';
