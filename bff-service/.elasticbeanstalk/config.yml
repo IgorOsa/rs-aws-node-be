@@ -1,7 +1,4 @@
 branch-defaults:
-  default:
-    environment: null
-    group_suffix: null
   task-9:
     environment: igorosa-bff-api-dev
     group_suffix: null
