@@ -1,0 +1,6 @@
+# We do not need docker files inside of container
+Dockerfile
+# We are doing clean install instead
+node_modules
+# No reason to keedp these files inside container
+README.md
