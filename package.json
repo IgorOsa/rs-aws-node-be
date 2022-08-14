@@ -1,5 +1,10 @@
 {
   "devDependencies": {
     "prettier": "^2.7.1"
+  },
+  "dependencies": {
+    "@nestjs/axios": "^0.1.0",
+    "@nestjs/config": "^2.2.0",
+    "axios": "^0.27.2"
   }
 }
